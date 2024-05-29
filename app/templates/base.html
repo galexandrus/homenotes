@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %} - Homenotes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    {% block navbar %}
+      <nav>
+        <h1><a href="{{ url_for('main.index') }}">Homenotes</a></h1>
+        <ul>
+          {% if current_user.is_anonymous %}
+            <li><a href="{{ url_for('auth.login') }}">Log in</a></li>
+            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+          {% else %}
+            <li><span>{{ current_user.name }}</span></li>
+            <li><a href="{{ url_for('auth.logout') }}">Log out</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endblock %}
+    <hr>
+    <section class="content">
+      <header>{% block header %}{% endblock %}</header>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </section>
+  </body>
 </html>

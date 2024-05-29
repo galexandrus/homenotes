@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app import database
+from app import database, login_manager
 from flask import current_app
 
 
@@ -95,6 +95,11 @@ class User(UserMixin, database.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+@login_manager.user_loader
+def load_user(id):
+    return database.session.get(User, int(id))
 
 
 class Note(database.Model):

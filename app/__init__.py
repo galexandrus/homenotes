@@ -43,6 +43,15 @@ def create_app(config_name="default"):
     login_manager.init_app(application)
 
     # blueprints registration
+    from app.auth import bp as auth_bp
+    application.register_blueprint(auth_bp)
+    from app.main import bp as main_bp
+    application.register_blueprint(main_bp)
+
+    # add simple page that says hello
+    @application.route("/hello")
+    def hello():
+        return "Hello!"
 
     return application
 
