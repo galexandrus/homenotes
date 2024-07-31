@@ -5,7 +5,7 @@ from app import create_app, database
 from app.models import Role, User, Note
 
 
-application = create_app(os.getenv("HOMENOTES_CONFIG"))
+application = create_app(os.getenv("HOMENOTES_CONFIG", "default"))
 
 
 @application.shell_context_processor

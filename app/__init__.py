@@ -28,7 +28,7 @@ def create_app(config_name="default"):
     application.config.from_object(config_select[config_name])
     if config_name == "production":
         application.config.from_pyfile("prod_conf.py", silent=True)
-    elif config_name == "dev":
+    elif config_name in ["dev", "default"]:
         application.config.from_mapping(
             SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(application.instance_path,
                                                                 "homenotes-db-dev.sqlite")
